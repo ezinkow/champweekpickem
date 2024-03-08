@@ -20,7 +20,7 @@ export default function NamesDisplay() {
         async function fetchNames() {
             try {
                 const response = await axios("api/names/")
-                const sortedList = response.data.sort( (a,b) => b.names - a.names );
+                const sortedList = response.data.sort((a,b) => (a.name > b.name) ? 1 : -1);
                 setNames(sortedList)
                 console.log('NAMES:',names)
                 console.log(response.data)
