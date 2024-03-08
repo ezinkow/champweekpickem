@@ -22,6 +22,8 @@ export default function NamesDisplay() {
                 const response = await axios("api/names/")
                 const sortedList = response.data.sort( (a,b) => b.names - a.names );
                 setNames(sortedList)
+                console.log('NAMES:',names)
+                console.log(response.data)
             } catch (e) {
                 console.log(e)
             }
@@ -33,8 +35,8 @@ export default function NamesDisplay() {
         names.map(name =>
             <tr>
                 <>
-                    <td key={name.name}>{name.name}</td>
-                    <td key={name.paid}>{name.paid}</td>
+                    <td key={name.id}>{name.name}</td>
+                    <td key={name.name}>{name.paid}</td>
                 </>
             </tr>
         )
