@@ -34,6 +34,7 @@ export default function NamesDisplay() {
             <tr>
                 <>
                     <td key={name.name}>{name.name}</td>
+                    <td key={name.paid}>{name.paid}</td>
                 </>
             </tr>
         )
@@ -48,6 +49,7 @@ export default function NamesDisplay() {
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Paid?</th>
                         </tr>
                     </thead>
                     <tbody>
