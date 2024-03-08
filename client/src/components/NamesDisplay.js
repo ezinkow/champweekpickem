@@ -33,7 +33,6 @@ export default function NamesDisplay() {
         names.map(name =>
             <tr>
                 <>
-                Signed Up:
                     <td key={name.name}>{name.name}</td>
                 </>
             </tr>
@@ -44,6 +43,7 @@ export default function NamesDisplay() {
         <div className='container'>
             <br></br>
             <div className="table">
+            <h2>Signed Up:</h2>
                 <Table striped bordered hover>
                     <thead>
                         <tr>

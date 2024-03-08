@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import NameSubmit from '../components/NameSubmit'
+import Names from '../components/NamesDisplay'
 
 
 export default function SignUp() {
@@ -12,6 +13,7 @@ export default function SignUp() {
             <div className='container'>
                 <NameSubmit />
               </div>
+              <Names />
         </div>
     )
 }
