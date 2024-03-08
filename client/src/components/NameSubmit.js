@@ -18,8 +18,7 @@ export default function NameSubmit() {
         event.preventDefault()
         setIsOpen(true);
         axios.post('api/names', {
-            name,
-            paid: 'N'
+            name
         })
         toast.success(`Thanks, ${name}, name submitted.`,
             {

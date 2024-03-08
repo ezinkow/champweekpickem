@@ -6,7 +6,11 @@ module.exports = function (sequelize, DataTypes) {
         }, 
         paid: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: true
+        },
+        friendly_name: {
+            type: DataTypes.TEXT,
+            allowNull:true
         }
     });
 
