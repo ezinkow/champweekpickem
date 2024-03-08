@@ -16,12 +16,14 @@ import InTheHoleGames from './pages/InTheHoleGames';
 import PicksDisplay from './pages/PicksDisplay';
 import PicksDisplay36 from './pages/PicksDisplay36';
 import Standings from './pages/Standings';
+import SignUp from './pages/SignUp';
 
 export default function App() {
 
   return (
     <Router>
       <Routes>
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/picksama" element={<PicksAA />} />
         <Route path="/pickspm" element={<PicksP />} />
         <Route path="/picksam" element={<PicksA />} />

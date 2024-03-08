@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import PicksTiebreaker from '../components/PicksTiebreaker'
+import PicksAM from '../components/PicksAM'
 
 export default function TodaysPicksAm() {
 
@@ -9,7 +9,7 @@ export default function TodaysPicksAm() {
         <div>
             <Navbar />
             <div className='=container'>
-                <PicksTiebreaker />
+                <PicksAM />
             </div>
         </div>
     )
