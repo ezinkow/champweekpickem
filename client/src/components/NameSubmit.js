@@ -46,7 +46,6 @@ export default function NameSubmit() {
                 <input onChange={handleNameChange} type="text" id="name" value={name} placeholder='Name' /><br /><br />
                 <Button onClick={handleNameSubmit} type="submit" value="Submit">Submit</Button>
             </form >
-
         </div >
     )
 }
