@@ -9,7 +9,7 @@ export default function InTheHoleGames() {
     const inTheHoleMonth = inTheHole.getMonth() + 1
     const inTheHoleDay = inTheHole.getDate() + 2
     //const inTheHoleDate = inTheHoleMonth + '' + inTheHoleDay
-    const inTheHoleDate = '310p'
+    const inTheHoleDate = '311'
 
     const customStyles = {
         content: {
