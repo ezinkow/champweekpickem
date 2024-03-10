@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import AllPicks from '../components/PicksDisplay'
+import AllPicks from '../components/PlayerPicksDisplay'
 
 export default function PicksDisplay() {
 

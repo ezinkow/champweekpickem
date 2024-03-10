@@ -25,12 +25,12 @@ module.exports = function (app) {
             })
     });
 
-    // Find picks where date = __
-    app.get('/api/picks/:date', function (req, res) {
+    // Find picks where set to visible
+    app.get('/api/picks/:make_visible', function (req, res) {
         console.log('req params', req.params)
         Picks.findAll({
             where: {
-                game_date: req.params.date
+                make_visible: req.params.make_visible
             }
         })
             .then(function (dbpicks) {

@@ -5,11 +5,6 @@ import Table from 'react-bootstrap/Table';
 
 export default function onDeckGames() {
     const [games, setGames] = useState([])
-    const onDeck = new Date
-    const onDeckMonth = onDeck.getMonth() + 1
-    const onDeckDay = onDeck.getDate() + 1
-    //const onDeckDate = onDeckMonth + '' + onDeckDay
-    const onDeckDate = '310'
     
     const customStyles = {
         content: {
@@ -24,7 +19,7 @@ export default function onDeckGames() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/${onDeckDate}`)
+                const response = await axios(`api/games/n`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)

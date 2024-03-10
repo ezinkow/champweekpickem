@@ -1,15 +1,15 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import PicksAM from '../components/PicksAM'
+import ActiveGames from '../components/ActiveGames'
 
-export default function TodaysPicksAm() {
+export default function TodaysActiveGames() {
 
 
     return (
         <div>
             <Navbar />
             <div className='=container'>
-                <PicksAM />
+                <ActiveGames />
             </div>
         </div>
     )

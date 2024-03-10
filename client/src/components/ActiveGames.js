@@ -8,7 +8,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
 import Instructions from './Instructions';
 
-export default function PicksAM() {
+export default function ActiveGames() {
     const [name, setName] = useState('SELECT YOUR NAME IN DROPDOWN!')
     const [names, setNames] = useState([''])
     const [games, setGames] = useState([])
@@ -16,7 +16,7 @@ export default function PicksAM() {
     const [nameToast, setNameToast] = useState('')
     const [currentPick, setCurrentPick] = useState([])
     const [modalIsOpen, setIsOpen] = useState('')
-    const todaysDate = '39'
+
 
     const customStyles = {
         content: {
@@ -31,7 +31,7 @@ export default function PicksAM() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/${todaysDate}`)
+                const response = await axios(`api/games/y`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)

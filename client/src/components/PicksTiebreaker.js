@@ -18,7 +18,6 @@ export default function PicksAM() {
     const [nameToast, setNameToast] = useState('')
     const [currentPick, setCurrentPick] = useState([])
     const [modalIsOpen, setIsOpen] = useState('')
-    const todaysDate = '312'
 
     const customStyles = {
         content: {
@@ -33,7 +32,7 @@ export default function PicksAM() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/${todaysDate}`)
+                const response = await axios(`api/games/y`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)

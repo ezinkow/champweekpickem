@@ -16,7 +16,6 @@ export default function PicksPM() {
     const [nameToast, setNameToast] = useState('')
     const [currentPick, setCurrentPick] = useState([])
     const [modalIsOpen, setIsOpen] = useState('')
-    const todaysDate = '311p'
 
     const customStyles = {
         content: {
@@ -31,7 +30,7 @@ export default function PicksPM() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/${todaysDate}`)
+                const response = await axios(`api/games/p`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)

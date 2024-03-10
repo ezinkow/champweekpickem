@@ -15,7 +15,7 @@ export default function Navbar() {
                         <Link to='/'><h5>Home</h5></Link>
                     </div>
                     <div className="col-1 navtext">
-                        <Link to='/picksam'><h5>Todays Picks AM</h5></Link>
+                        <Link to='/picks'><h5>Todays Picks AM</h5></Link>
                     </div>
                     <div className="col-1 navtext">
                         <Link to='/pickspm'><h5>Todays Picks PM</h5></Link>

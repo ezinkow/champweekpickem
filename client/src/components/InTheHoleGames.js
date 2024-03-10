@@ -9,7 +9,6 @@ export default function InTheHoleGames() {
     const inTheHoleMonth = inTheHole.getMonth() + 1
     const inTheHoleDay = inTheHole.getDate() + 2
     //const inTheHoleDate = inTheHoleMonth + '' + inTheHoleDay
-    const inTheHoleDate = '311'
 
     const customStyles = {
         content: {
@@ -24,7 +23,7 @@ export default function InTheHoleGames() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/${inTheHoleDate}`)
+                const response = await axios(`api/games/h`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)
