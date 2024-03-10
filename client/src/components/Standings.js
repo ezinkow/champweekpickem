@@ -20,8 +20,7 @@ export default function Standings() {
         async function fetchStandings() {
             try {
                 const response = await axios(`api/standings/`)
-                const sortedList = response.data.sort( (a,b) => b.points - a.points );
-                setStandings(sortedList)
+                setStandings(response.data)
             } catch (e) {
                 console.log(e)
             }
@@ -34,7 +33,7 @@ export default function Standings() {
             <tr>
                 <>
                     
-                    <td key={standing.rank}>{standing.rank}</td>
+                    {/* <td key={standing.rank}>{standing.rank}</td> */}
                     <td key={standing.name}>{standing.name}</td>
                     <td key={standing.points}>{standing.points}</td>
                 </>
@@ -49,7 +48,7 @@ export default function Standings() {
                 <Table striped bordered hover>
                     <thead>
                         <tr>
-                            <th>Rank</th>
+                            {/* <th>Rank</th> */}
                             <th>Name</th>
                             <th>Points</th>
                         </tr>
