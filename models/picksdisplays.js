@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const Picksdisplay = sequelize.define("Picksdisplay", {
+    const Picksdisplays = sequelize.define("Picksdisplays", {
         name: {
             type: DataTypes.TEXT,
             allowNull: false
@@ -26,5 +26,5 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
-    return Picksdisplay;
+    return Picksdisplays;
 };
