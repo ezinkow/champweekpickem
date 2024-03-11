@@ -11,12 +11,12 @@ export default function Home() {
         <div>
             <Navbar />
             <div className='container'>
-                <h3>Check out the google for your picks results:</h3>
-                <a href='https://docs.google.com/spreadsheets/d/1Lrf8mPnABvaX4TH1VlAf88yOWchWGz49sEbH_WUyG2w/edit#gid=0' target="_blank">https://docs.google.com/spreadsheets/d/1Lrf8mPnABvaX4TH1VlAf88yOWchWGz49sEbH_WUyG2w/edit#gid=0</a>
+                {/* <h3>Check out the google for your picks results:</h3>
+                <a href='https://docs.google.com/spreadsheets/d/1Lrf8mPnABvaX4TH1VlAf88yOWchWGz49sEbH_WUyG2w/edit#gid=0' target="_blank">https://docs.google.com/spreadsheets/d/1Lrf8mPnABvaX4TH1VlAf88yOWchWGz49sEbH_WUyG2w/edit#gid=0</a> */}
                 <br></br>
                 <br></br>
-                <Link to="/picksam"><h3>Make Today's Pick</h3></Link>
-                {/* <Link to="/pickspm"><h3>Make Today's PM Picks</h3></Link> */}
+                <Link to="/picksam"><h3>Make Today's AM Picks</h3></Link>
+                <Link to="/pickspm"><h3>Make Today's PM Picks</h3></Link>
                 <br></br>
                 <br></br>
                 <h5>Conference Tournament Schedules:</h5>

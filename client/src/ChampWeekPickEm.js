@@ -24,14 +24,12 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/picks" element={<ActiveGames />} />
-        <Route path="/picksama" element={<PicksAA />} />
+        <Route path="/picksam" element={<ActiveGames />} />
         <Route path="/pickspm" element={<PicksP />} />
         <Route path="/pickstiebreak" element={<PicksTiebreak />} />
         <Route path="/tomorrowsgames" element={<OnDeckGames />} />
         <Route path="/twodaysout" element={<InTheHoleGames />} />
         <Route path="/picksdisplay" element={<PicksDisplay />} />
-        <Route path="/picksdisplay36" element={<PicksDisplay36 />} />
         <Route path="/standings" element={<Standings />} />
         <Route path="/" element={<Home />} />
       </Routes>
