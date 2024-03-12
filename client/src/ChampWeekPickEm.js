@@ -9,12 +9,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './pages/Home';
 import ActiveGames from './pages/ActiveGames';
 import PicksP from './pages/PicksPM';
-import PicksAA from './pages/PicksAMA';
 import PicksTiebreak from './pages/PicksTieBreak';
 import OnDeckGames from './pages/OnDeckGames';
 import InTheHoleGames from './pages/InTheHoleGames';
 import PicksDisplay from './pages/PicksDisplay';
-import PicksDisplay36 from './pages/PicksDisplay36';
 import Standings from './pages/Standings';
 import SignUp from './pages/SignUp';
 
