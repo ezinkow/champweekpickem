@@ -21,6 +21,18 @@ export default function Standings() {
             try {
                 const response = await axios(`api/standings/`)
                 setStandings(response.data)
+                // console.log(response.data)
+                // let rank = ""
+                // let newArr = [{rank: 1, name: response.data[0].name, points:response.data[0].points}]
+                // for (let i = 0; i < response.data.length; i++) {
+                //     if(response.data[i].points > response.data[i+1].points)
+                //     newArr.push({rank: 2, name: response.data[i+1].name, points:response.data[i+1].points})
+                //     if (response.data[i].points === response.data[i+1].points) {
+                //         newArr.push({rank: 1, name: response.data[i+1].name, points:response.data[i+1].points})
+                //     }
+                    
+                //     console.log(newArr)
+                // }
             } catch (e) {
                 console.log(e)
             }

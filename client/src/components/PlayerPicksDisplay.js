@@ -60,12 +60,12 @@ export default function PicksDisplay() {
         <div className="table">
             <h3>Picks:</h3>
             <div className="table picksTable">
-                <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm" responsive>
                     <thead>
                         <tr>
                             <th key='game id'>Name</th>
                             {games.length > 0 ? games.map(game =>
-                                <th key={game.id}>{game.underdog} vs {game.favorite}</th>
+                                <th key={game.id}>{game.underdog} vs {game.favorite} (-{game.line})</th>
                             ) : ""
                             }
                         </tr>
