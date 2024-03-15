@@ -81,8 +81,8 @@ a:hover { text-decoration: none; }
   overflow-x: scroll;
   overflow-y: visible;
   padding-bottom: 5px;
-  width: 5000px;
-}
+  width: 2000px;
+} 
 
 .table-main .fix-col {
   border-left: solid 1px rgb(75, 90, 102);

@@ -62,7 +62,7 @@ export default function PicksDisplay() {
                     <tbody>
                             {picks.length > 0 ? picks.map(thisPickSet =>
                                 <tr>
-                                    <th className="fix-col">{thisPickSet.name}</th>
+                                    <th className="fix-col">{thisPickSet.name} ({thisPickSet.points})</th>
                                     <td key={thisPickSet.pick[0]}>{thisPickSet.pick[0]}</td>
                                     <td key={thisPickSet.pick[1]}>{thisPickSet.pick[1]}</td>
                                     <td key={thisPickSet.pick[2]}>{thisPickSet.pick[2]}</td>
