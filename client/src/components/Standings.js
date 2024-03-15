@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 
 export default function Standings() {
     const [standings, setStandings] = useState([])
+    const [picks, setPicks] = useState()
     
     const customStyles = {
         content: {
@@ -38,7 +39,32 @@ export default function Standings() {
             }
         }
         fetchStandings()
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        async function fetchPicks() {
+            try {
+                const response = await axios(`api/picksdisplay`)
+                // console.log('response', response)
+                const newArr = response.data
+                for (let i = 0; i < newArr.length; i++) {
+                    const thisPickSet = newArr[i];
+                    const newPickArr = thisPickSet.pick.split(',')
+                    newArr[i].pick = newPickArr
+                }
+                setPicks(newArr)
+                // console.log('thissss', picks)
+                // console.log('picks', response.data, picks)
+                // response.data.map(res => 
+                // console.log('respick', res.pick)
+                // )
+            } catch (e) {
+                console.log(e)
+            }
+        }
+        fetchPicks()
+    }, []);
+
 
     const tableGrid =
         standings.map(standing =>

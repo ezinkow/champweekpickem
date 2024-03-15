@@ -7,8 +7,9 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
 import Instructions from './Instructions';
+import Tiebreaker from '../components/PicksTiebreaker'
 
-export default function ActiveGames() {
+export default function PicksAM() {
     const [name, setName] = useState('SELECT YOUR NAME IN DROPDOWN!')
     const [names, setNames] = useState([''])
     const [games, setGames] = useState([])
@@ -16,18 +17,9 @@ export default function ActiveGames() {
     const [nameToast, setNameToast] = useState('')
     const [currentPick, setCurrentPick] = useState([])
     const [modalIsOpen, setIsOpen] = useState('')
+    const [uScore, setUScore] = useState('')
+    const [fScore, setFScore] = useState('')
 
-
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
-    };
     useEffect(() => {
         async function fetchGames() {
             try {
@@ -96,6 +88,14 @@ export default function ActiveGames() {
             activePicks.push(currentPickObj)
             setPicks(activePicks);
         }
+    }
+
+    //tiebreaker scores
+    const handleUScore = event => {
+        setUScore(event.target.value)
+    }
+    const handleFScore = event => {
+        setFScore(event.target.value)
     }
 
     const tableGrid =
@@ -228,6 +228,7 @@ export default function ActiveGames() {
                     </thead>
                     <tbody>
                         {tableGrid}
+                        {/* <Tiebreaker /> */}
                     </tbody>
                 </Table>
 

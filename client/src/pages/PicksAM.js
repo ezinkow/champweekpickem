@@ -1,6 +1,6 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import ActiveGames from '../components/ActiveGames'
+import PicksAM from '../components/PicksAM'
 
 export default function TodaysActiveGames() {
 
@@ -9,7 +9,7 @@ export default function TodaysActiveGames() {
         <div>
             <Navbar />
             <div className='=container'>
-                <ActiveGames />
+                <PicksAM />
             </div>
         </div>
     )
