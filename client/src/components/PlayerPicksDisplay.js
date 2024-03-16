@@ -169,6 +169,8 @@ export default function PicksDisplay() {
                                     <td key={thisPickSet.pick[103]}>{thisPickSet.pick[103]}</td>
                                     <td key={thisPickSet.pick[104]}>{thisPickSet.pick[104]}</td>
                                     <td key={thisPickSet.pick[105]}>{thisPickSet.pick[105]}</td>
+                                    <td key={thisPickSet.pick[106]}>{thisPickSet.pick[106]}</td>
+                                    <td key={thisPickSet.pick[107]}>{thisPickSet.pick[107]}</td>
                                 </tr>
                             ) : ""
                             }
