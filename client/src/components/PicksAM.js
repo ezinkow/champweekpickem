@@ -168,97 +168,113 @@ export default function PicksAM() {
                     game_date
                 })
             }
-            toast.success(`Thanks, ${nameToast}, picks submitted.`,
-                {
-                    duration: 10001,
-                    position: 'top-center',
-                    style: {
-                        border: '2px solid #713200',
-                        padding: '20px',
-                        marginTop: '100px',
-                        color: 'white',
-                        backgroundColor: 'rgb(60, 179, 113, 0.7)'
-                    },
-                    icon: '🏀',
-                    role: 'status',
-                    ariaLive: 'polite',
-                });
-            setName("")
-            setPicks("")
-        } else {
-            toast.error('Please select name in dropdown!',
-                {
-                    duration: 5000,
-                    position: 'top-center',
-                    style: {
-                        border: '2px solid #713200',
-                        padding: '20px',
-                        marginTop: '100px',
-                        backgroundColor: 'rgb(255,0,0)',
-                        color: 'rgb(255,255,255)'
-                    },
-                });
-        }
 
+            const totalTiebreakerScore = Number(uScore) + Number(fScore)
+            const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
+            axios.post('api/picks', {
+                name,
+                game_id: 'tb',
+                pick:tiebreakerScore,
+                game_date: 'tb'
+            })
+
+
+        toast.success(`Thanks, ${nameToast}, picks submitted.`,
+            {
+                duration: 10001,
+                position: 'top-center',
+                style: {
+                    border: '2px solid #713200',
+                    padding: '20px',
+                    marginTop: '100px',
+                    color: 'white',
+                    backgroundColor: 'rgb(60, 179, 113, 0.7)'
+                },
+                icon: '🏀',
+                role: 'status',
+                ariaLive: 'polite',
+            });
+        setName("")
+        setPicks("")
+    } else {
+        toast.error('Please select name in dropdown!',
+            {
+                duration: 5000,
+                position: 'top-center',
+                style: {
+                    border: '2px solid #713200',
+                    padding: '20px',
+                    marginTop: '100px',
+                    backgroundColor: 'rgb(255,0,0)',
+                    color: 'rgb(255,255,255)'
+                },
+            });
     }
 
-    return (
-        <div className='container'>
-            <Toaster />
-            <Instructions />
-            <DropdownButton
-                id="dropdown-basic-button"
-                title='Name'
-                onSelect={handleNameSelect}
-                key='dropdown'>{namesList}
-            </DropdownButton>
-            <h4> Name: {name}</h4>
-            <h5>Most Recent Pick: {currentPick}</h5>
-            <div className="table">
-                <Table striped bordered hover>
+}
+
+return (
+    <div className='container'>
+        <Toaster />
+        <Instructions />
+        <DropdownButton
+            id="dropdown-basic-button"
+            title='Name'
+            onSelect={handleNameSelect}
+            key='dropdown'>{namesList}
+        </DropdownButton>
+        <h4> Name: {name}</h4>
+        <h5>Most Recent Pick: {currentPick}</h5>
+        <div className="table">
+            <Table striped bordered hover>
+                <thead>
+                    <tr>
+                        <th>Game #</th>
+                        <th>Time (ET)</th>
+                        <th>Underdog</th>
+                        <th>Favorite</th>
+                        <th>Line</th>
+                        <th>Pick</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {tableGrid}
+                    <tr>
+                        <td>Tiebreaker: Big Ten Score</td>
+                        <td>Enter scores to the right</td>
+                        <td><input onChange={handleUScore} type="text" id="tiebreakeru" name="underdog score" size="10" /></td>
+                        <td><input onChange={handleFScore} type="text" id="tiebreakerf" name="favorite score" size="10" /></td>
+                    </tr>
+                </tbody>
+            </Table>
+
+            <Button onClick={handleSubmitClick}>Submit</Button>
+        </div>
+        <>
+            <h3>Picks (selected {picks.length} out of {games.length}):</h3>
+            <div className="table picksTable">
+                <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
-                            <th>Game #</th>
-                            <th>Time (ET)</th>
-                            <th>Underdog</th>
-                            <th>Favorite</th>
-                            <th>Line</th>
-                            <th>Pick</th>
+                            <th key='game id'>#</th>
+                            <th key='game'>Game</th>
+                            <th key='game pick'>Pick</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {tableGrid}
-                        {/* <Tiebreaker /> */}
+                        {picks.length > 0 ? picks.map(thisPick =>
+                            <tr>
+                                <td key={thisPick.game}>{thisPick.game}</td>
+                                <td key='matchup'>{thisPick.underdog} vs {thisPick.favorite} (-{thisPick.line})</td>
+                                <td key={thisPick.pick}>{thisPick.pick}</td>
+                            </tr>
+                        ) : ""
+                        }
                     </tbody>
                 </Table>
-
-                <Button onClick={handleSubmitClick}>Submit</Button>
             </div>
-            <>
-                <h3>Picks (selected {picks.length} out of {games.length}):</h3>
-                <div className="table picksTable">
-                    <Table striped bordered hover size="sm">
-                        <thead>
-                            <tr>
-                                <th key='game id'>#</th>
-                                <th key='game'>Game</th>
-                                <th key='game pick'>Pick</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {picks.length > 0 ? picks.map(thisPick =>
-                                <tr>
-                                    <td key={thisPick.game}>{thisPick.game}</td>
-                                    <td key='matchup'>{thisPick.underdog} vs {thisPick.favorite} (-{thisPick.line})</td>
-                                    <td key={thisPick.pick}>{thisPick.pick}</td>
-                                </tr>
-                            ) : ""
-                            }
-                        </tbody>
-                    </Table>
-                </div>
-            </>
-        </div>
-    )
+        </>
+    </div>
+)
 }
 
