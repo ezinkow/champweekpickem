@@ -173,7 +173,7 @@ export default function PicksAM() {
             const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
             axios.post('api/picks', {
                 name,
-                game_id: 'tb',
+                game_id: 113,
                 pick:tiebreakerScore,
                 game_date: 'tb'
             })
