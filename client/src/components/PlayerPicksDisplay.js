@@ -5,7 +5,6 @@ import Table from 'react-bootstrap/Table';
 
 export default function PicksDisplay() {
     const [picks, setPicks] = useState([])
-    const [picksoverflow, setPicksOverflow] = useState([])
     const [games, setGames] = useState([])
 
     useEffect(() => {
@@ -33,10 +32,6 @@ export default function PicksDisplay() {
             }
         }
         fetchPicks()
-    }, [])
-
-    useEffect(() => {
-
     }, [])
 
     useEffect(() => {
@@ -191,10 +186,6 @@ export default function PicksDisplay() {
                     </tbody>
                 </table>
             </div>
-            <tbody>
-
-
-            </tbody>
         </div >
     )
 }

@@ -141,19 +141,6 @@ export default function PicksAM() {
 
     // Send name and picks to database and reset fields
     function handleSubmitClick(event) {
-
-        // toast.error('Come back later when games are ready to make your picks!',
-        // {
-        //     duration: 5000,
-        //     position: 'top-center',
-        //     style: {
-        //         border: '2px solid #713200',
-        //         padding: '20px',
-        //         marginTop: '100px',
-        //         backgroundColor: 'rgb(255,0,0)',
-        //         color: 'rgb(255,255,255)'
-        //     },})
-
         if (name != 'SELECT YOUR NAME IN DROPDOWN!') {
             event.preventDefault()
             setIsOpen(true);
@@ -169,14 +156,14 @@ export default function PicksAM() {
                 })
             }
 
-            const totalTiebreakerScore = Number(uScore) + Number(fScore)
-            const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
-            axios.post('api/picks', {
-                name,
-                game_id: 113,
-                pick:tiebreakerScore,
-                game_date: 'tb'
-            })
+            // const totalTiebreakerScore = Number(uScore) + Number(fScore)
+            // const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
+            // axios.post('api/picks', {
+            //     name,
+            //     game_id: 113,
+            //     pick:tiebreakerScore,
+            //     game_date: 'tb'
+            // })
 
 
         toast.success(`Thanks, ${nameToast}, picks submitted.`,
@@ -239,12 +226,12 @@ return (
                 </thead>
                 <tbody>
                     {tableGrid}
-                    <tr>
+                    {/* <tr>
                         <td>Tiebreaker: Big Ten Score</td>
                         <td>Enter scores to the right</td>
                         <td><input onChange={handleUScore} type="text" id="tiebreakeru" name="underdog score" size="10" /></td>
                         <td><input onChange={handleFScore} type="text" id="tiebreakerf" name="favorite score" size="10" /></td>
-                    </tr>
+                    </tr> */}
                 </tbody>
             </Table>
 
