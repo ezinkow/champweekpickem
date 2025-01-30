@@ -1,6 +1,23 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
 import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+// const [links, setLinks] = useState('ncaa.com')
+
+// useEffect(() => {
+//     async function fetchLinks() {
+//         try {
+//             const response = await axios("api/links/")
+//             setLinks(response.data.url)
+//             console.log(links)
+//         } catch (e) {
+//             console.log(e)
+//         }
+//     }
+//     fetchLinks()
+// }, [])
 
 
 export default function Home() {
@@ -17,7 +34,7 @@ export default function Home() {
                 <br></br>
                 <br></br>
                 <h5>Conference Tournament Schedules:</h5>
-                <a href='https://www.ncaa.com/news/basketball-men/article/2024-02-23/2024-ncaa-conference-tournaments-schedules-brackets-scores-auto-bids' target="_blank">FULL LIST OF CONFERENCE TOURNAMENTS</a>
+                <a href='https://www.ncaa.com/news/basketball-men/article/2025-03-16/2025-ncaa-conference-tournaments-schedules-brackets-scores-auto-bids' target="_blank">FULL LIST OF CONFERENCE TOURNAMENTS</a>
             </div>
         </div>
     )
