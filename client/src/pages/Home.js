@@ -11,16 +11,16 @@ export default function Home() {
         <div>
             <Navbar />
             <div className='container'>
-                The game:
-                Pick every conference tournamet game <u>against the spread</u> from the following conferences:
-                American
-                ACC
-                Big East
-                Big 10
-                Big 12
-                SEC
-                A10 (new this year)
-                Mountain West (new this year)
+                The game:<br></br>
+                Pick every conference tournamet game <u>against the spread</u> from the following conferences: <br></br>
+                American<br></br>
+                ACC<br></br>
+                Big East<br></br>
+                Big 10<br></br>
+                Big 12<br></br>
+                SEC<br></br>
+                A10 (new this year)<br></br>
+                Mountain West (new this year)<br></br>
                 <br></br>
                 <br></br>
                 AND ALL conference championship games between March 8th and 16th.
