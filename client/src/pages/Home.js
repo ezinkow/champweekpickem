@@ -23,7 +23,6 @@ export default function Home() {
                 A10 (new this year)<br></br>
                 Mountain West (new this year)<br></br>
                 <br></br>
-                <br></br>
                 AND ALL conference championship games between March 8th and 16th.
                 <br></br>
                 <br></br>
