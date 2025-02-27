@@ -12,7 +12,8 @@ export default function Home() {
             <Navbar />
             <div className='container'>
                 The game:<br></br>
-                Pick every conference tournamet game <u>against the spread</u> from the following conferences: <br></br>
+                Runs from March 8 - March 16<br></br>
+                Pick every conference tournament game <u>against the spread</u> from the following conferences: <br></br>
                 American<br></br>
                 ACC<br></br>
                 Big East<br></br>
