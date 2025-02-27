@@ -86,7 +86,7 @@ export default function NameSubmit() {
                         <Form.Check type="checkbox" label="Sign me up for emails!" />
                     </Form.Group>
                     <Form.Group onChange={handlePaidChange} className="mb-3" controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="I'm goint to pay right now!" />
+                        <Form.Check type="checkbox" label="I'm going to pay right now!" />
                     </Form.Group>
                     <Button onClick={handleNameSubmit} type="submit" value="Submit" variant="primary">
                         Submit
