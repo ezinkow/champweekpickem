@@ -23,7 +23,7 @@ export default function PicksAM() {
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/y`)
+                const response = await axios(`api/games/a`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)
