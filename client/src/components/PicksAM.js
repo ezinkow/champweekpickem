@@ -19,11 +19,13 @@ export default function PicksAM() {
     const [modalIsOpen, setIsOpen] = useState('')
     const [uScore, setUScore] = useState('')
     const [fScore, setFScore] = useState('')
+    const [isCheckedDogs, setIsCheckedDogs] = useState(false)
+    const [isCheckedFaves, setIsCheckedFaves] = useState(false)
 
     useEffect(() => {
         async function fetchGames() {
             try {
-                const response = await axios(`api/games/a`)
+                const response = await axios(`api/games/y`)
                 setGames(response.data)
             } catch (e) {
                 console.log(e)
@@ -98,6 +100,62 @@ export default function PicksAM() {
         setFScore(event.target.value)
     }
 
+    let dogPicks = []
+    let favePicks = []
+
+    const handleDogsChange = event => {
+        if (!isCheckedDogs) {
+            const gamesArr = games
+            for (let i = 0; i < games.length; i++) {
+                const thisDog = games[i].underdog;
+                const currentPickObj = {
+                    game: gamesArr[i].id,
+                    pick: thisDog,
+                    underdog: gamesArr[i].underdog,
+                    favorite: gamesArr[i].favorite,
+                    line: gamesArr[i].line,
+                    game_date: gamesArr[i].game_date
+                }
+                dogPicks.push(currentPickObj)
+            }
+            setPicks(dogPicks)
+            setIsCheckedDogs(!isCheckedDogs)
+            if (isCheckedFaves) {
+                setIsCheckedFaves(!isCheckedFaves)
+            }
+        } else {
+            setPicks([])
+            setIsCheckedDogs(!isCheckedDogs)
+        }
+    }
+
+    const handleFavesChange = event => {
+        if (!isCheckedFaves) {
+            const gamesArr = games
+            for (let i = 0; i < games.length; i++) {
+                const thisFave = games[i].favorite;
+                const currentPickObj = {
+                    game: gamesArr[i].id,
+                    pick: thisFave,
+                    underdog: gamesArr[i].underdog,
+                    favorite: gamesArr[i].favorite,
+                    line: gamesArr[i].line,
+                    game_date: gamesArr[i].game_date
+                }
+                favePicks.push(currentPickObj)
+            }
+            setPicks(favePicks)
+            setIsCheckedFaves(!isCheckedFaves)
+            if (isCheckedDogs) {
+                setIsCheckedDogs(!isCheckedDogs)
+            }
+        } else {
+            setPicks([])
+            setIsCheckedFaves(!isCheckedFaves)
+        }
+    }
+
+
     const tableGrid =
         games.map(game =>
             <tr>
@@ -166,102 +224,107 @@ export default function PicksAM() {
             // })
 
 
-        toast.success(`Thanks, ${nameToast}, picks submitted.`,
-            {
-                duration: 10001,
-                position: 'top-center',
-                style: {
-                    border: '2px solid #713200',
-                    padding: '20px',
-                    marginTop: '100px',
-                    color: 'white',
-                    backgroundColor: 'rgb(60, 179, 113, 0.7)'
-                },
-                icon: '🏀',
-                role: 'status',
-                ariaLive: 'polite',
-            });
-        setName("")
-        setPicks("")
-    } else {
-        toast.error('Please select name in dropdown!',
-            {
-                duration: 5000,
-                position: 'top-center',
-                style: {
-                    border: '2px solid #713200',
-                    padding: '20px',
-                    marginTop: '100px',
-                    backgroundColor: 'rgb(255,0,0)',
-                    color: 'rgb(255,255,255)'
-                },
-            });
+            toast.success(`Thanks, ${nameToast}, picks submitted.`,
+                {
+                    duration: 10001,
+                    position: 'top-center',
+                    style: {
+                        border: '2px solid #713200',
+                        padding: '20px',
+                        marginTop: '100px',
+                        color: 'white',
+                        backgroundColor: 'rgb(60, 179, 113, 0.7)'
+                    },
+                    icon: '🏀',
+                    role: 'status',
+                    ariaLive: 'polite',
+                });
+            setName("")
+            setPicks("")
+        } else {
+            toast.error('Please select name in dropdown!',
+                {
+                    duration: 5000,
+                    position: 'top-center',
+                    style: {
+                        border: '2px solid #713200',
+                        padding: '20px',
+                        marginTop: '100px',
+                        backgroundColor: 'rgb(255,0,0)',
+                        color: 'rgb(255,255,255)'
+                    },
+                });
+        }
+
     }
 
-}
-
-return (
-    <div className='container'>
-        <Toaster />
-        <Instructions />
-        <DropdownButton
-            id="dropdown-basic-button"
-            title='Name'
-            onSelect={handleNameSelect}
-            key='dropdown'>{namesList}
-        </DropdownButton>
-        <h4> Name: {name}</h4>
-        <h5>Most Recent Pick: {currentPick}</h5>
-        <div className="table">
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Game #</th>
-                        <th>Time (ET)</th>
-                        <th>Underdog</th>
-                        <th>Favorite</th>
-                        <th>Line</th>
-                        <th>Pick</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {tableGrid}
-                    {/* <tr>
+    return (
+        <div className='container'>
+            <Toaster />
+            <Instructions />
+            <DropdownButton
+                id="dropdown-basic-button"
+                title='Name'
+                onSelect={handleNameSelect}
+                key='dropdown'>{namesList}
+            </DropdownButton>
+            <h4> Name: {name}</h4>
+            <h5>Most Recent Pick: {currentPick}</h5>
+            <input type="checkbox" id="allUnderdogs" name="allUnderdogs" value="allUnderdogs" checked={isCheckedDogs} onChange={handleDogsChange} />
+            <label for="allUnderdogs">&nbsp;Select All Underdogs</label><br />
+            <input type="checkbox" id="allFavorites" name="allFavorites" value="allFavorites" checked={isCheckedFaves} onChange={handleFavesChange} />
+            <label for="allFavorites">&nbsp;Select All Favorites</label><br />
+            <p>These options will overwrite any previous picks.</p>
+            <div className="table">
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>Game #</th>
+                            <th>Time (ET)</th>
+                            <th>Underdog</th>
+                            <th>Favorite</th>
+                            <th>Line</th>
+                            <th>Pick</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {tableGrid}
+                        {/* <tr>
                         <td>Tiebreaker: Big Ten Score</td>
                         <td>Enter scores to the right</td>
                         <td><input onChange={handleUScore} type="text" id="tiebreakeru" name="underdog score" size="10" /></td>
                         <td><input onChange={handleFScore} type="text" id="tiebreakerf" name="favorite score" size="10" /></td>
                     </tr> */}
-                </tbody>
-            </Table>
-
-            <Button onClick={handleSubmitClick}>Submit</Button>
-        </div>
-        <>
-            <h3>Picks (selected {picks.length} out of {games.length}):</h3>
-            <div className="table picksTable">
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th key='game id'>#</th>
-                            <th key='game'>Game</th>
-                            <th key='game pick'>Pick</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {picks.length > 0 ? picks.map(thisPick =>
-                            <tr>
-                                <td key={thisPick.game}>{thisPick.game}</td>
-                                <td key='matchup'>{thisPick.underdog} vs {thisPick.favorite} (-{thisPick.line})</td>
-                                <td key={thisPick.pick}>{thisPick.pick}</td>
-                            </tr>
-                        ) : ""
-                        }
                     </tbody>
                 </Table>
+
+                <Button onClick={handleSubmitClick}>Submit</Button>
             </div>
-        </>
-    </div>
-)
+            <>
+                <h3>Picks (selected {picks.length} out of {games.length}):</h3>
+                <div className="table picksTable">
+                    <Table striped bordered hover size="sm">
+                        <thead>
+                            <tr>
+                                <th key='game id'>#</th>
+                                <th key='game'>Game</th>
+                                <th key='game pick'>Pick</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {picks.length > 0 ? picks.map(thisPick =>
+                                <tr>
+                                    <td key={thisPick.game}>{thisPick.game}</td>
+                                    <td key='matchup'>{thisPick.underdog} vs {thisPick.favorite} (-{thisPick.line})</td>
+                                    <td key={thisPick.pick}>{thisPick.pick}</td>
+                                </tr>
+                            ) : ""
+                            }
+                        </tbody>
+                    </Table>
+                </div>
+            </>
+        </div>
+    )
 }
 
