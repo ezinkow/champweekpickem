@@ -8,14 +8,12 @@ import {
 export default function Navbar() {
 
     return (
-        <div className="header"
-        style={{
+        <div className="header" style={{
             backgroundImage: `url(${banner})`,
-            backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            height: '350px',
-            width: '100%'
-            }}>
+            backgroundRepeat: 'repeat',
+            backgroundSize: 'contain',
+            backgroundPosition: 'center'
+        }}>
             <div className="navbar">
                 <div className='container'>
                     <div className="col-1 navtext">
