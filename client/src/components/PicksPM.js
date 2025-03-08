@@ -16,6 +16,8 @@ export default function PicksPM() {
     const [nameToast, setNameToast] = useState('')
     const [currentPick, setCurrentPick] = useState([])
     const [modalIsOpen, setIsOpen] = useState('')
+    const [isCheckedDogs, setIsCheckedDogs] = useState(false)
+    const [isCheckedFaves, setIsCheckedFaves] = useState(false)
 
     const customStyles = {
         content: {
@@ -94,6 +96,61 @@ export default function PicksPM() {
         } else {
             activePicks.push(currentPickObj)
             setPicks(activePicks);
+        }
+    }
+
+    let dogPicks = []
+    let favePicks = []
+
+    const handleDogsChange = event => {
+        if (!isCheckedDogs) {
+            const gamesArr = games
+            for (let i = 0; i < games.length; i++) {
+                const thisDog = games[i].underdog;
+                const currentPickObj = {
+                    game: gamesArr[i].id,
+                    pick: thisDog,
+                    underdog: gamesArr[i].underdog,
+                    favorite: gamesArr[i].favorite,
+                    line: gamesArr[i].line,
+                    game_date: gamesArr[i].game_date
+                }
+                dogPicks.push(currentPickObj)
+            }
+            setPicks(dogPicks)
+            setIsCheckedDogs(!isCheckedDogs)
+            if (isCheckedFaves) {
+                setIsCheckedFaves(!isCheckedFaves)
+            }
+        } else {
+            setPicks([])
+            setIsCheckedDogs(!isCheckedDogs)
+        }
+    }
+
+    const handleFavesChange = event => {
+        if (!isCheckedFaves) {
+            const gamesArr = games
+            for (let i = 0; i < games.length; i++) {
+                const thisFave = games[i].favorite;
+                const currentPickObj = {
+                    game: gamesArr[i].id,
+                    pick: thisFave,
+                    underdog: gamesArr[i].underdog,
+                    favorite: gamesArr[i].favorite,
+                    line: gamesArr[i].line,
+                    game_date: gamesArr[i].game_date
+                }
+                favePicks.push(currentPickObj)
+            }
+            setPicks(favePicks)
+            setIsCheckedFaves(!isCheckedFaves)
+            if (isCheckedDogs) {
+                setIsCheckedDogs(!isCheckedDogs)
+            }
+        } else {
+            setPicks([])
+            setIsCheckedFaves(!isCheckedFaves)
         }
     }
 
@@ -213,6 +270,11 @@ export default function PicksPM() {
             </DropdownButton>
             <h4> Name: {name}</h4>
             <h5>Most Recent Pick: {currentPick}</h5>
+            <input type="checkbox" id="allUnderdogs" name="allUnderdogs" value="allUnderdogs" checked={isCheckedDogs} onChange={handleDogsChange} />
+            <label for="allUnderdogs">&nbsp;Select All Underdogs</label><br />
+            <input type="checkbox" id="allFavorites" name="allFavorites" value="allFavorites" checked={isCheckedFaves} onChange={handleFavesChange} />
+            <label for="allFavorites">&nbsp;Select All Favorites</label><br />
+            <p>These options will overwrite any previous picks.</p>
             <div className="table">
                 <Table striped bordered hover>
                     <thead>
