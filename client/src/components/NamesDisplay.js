@@ -5,7 +5,7 @@ import Table from 'react-bootstrap/Table';
 
 export default function NamesDisplay() {
     const [names, setNames] = useState([])
-    
+
     const customStyles = {
         content: {
             top: '50%',
@@ -20,10 +20,9 @@ export default function NamesDisplay() {
         async function fetchNames() {
             try {
                 const response = await axios("api/names/")
-                const sortedList = response.data.sort((a,b) => (a.name > b.name) ? 1 : -1);
+                const sortedList = response.data.sort((a, b) => (a.name > b.name) ? 1 : -1);
                 setNames(sortedList)
-                console.log('NAMES:',names)
-                console.log(response.data)
+                console.log('NAMES:', names)
             } catch (e) {
                 console.log(e)
             }
@@ -31,6 +30,8 @@ export default function NamesDisplay() {
         fetchNames()
     }, [])
 
+    console.log('NAMES:', names)
+    
     const tableGrid =
         names.map(name =>
             <tr>
@@ -46,7 +47,7 @@ export default function NamesDisplay() {
         <div className='container'>
             <br></br>
             <div className="table">
-            <h2>Signed Up:</h2>
+                <h2>Signed Up:</h2>
                 <Table striped bordered hover>
                     <thead>
                         <tr>
