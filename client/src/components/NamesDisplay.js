@@ -22,7 +22,6 @@ export default function NamesDisplay() {
                 const response = await axios("api/names/")
                 const sortedList = response.data.sort((a, b) => (a.name > b.name) ? 1 : -1);
                 setNames(sortedList)
-                console.log('NAMES list:', sortedList)
             } catch (e) {
                 console.log(e)
             }
