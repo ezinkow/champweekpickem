@@ -22,7 +22,7 @@ export default function NamesDisplay() {
                 const response = await axios("api/names/")
                 const sortedList = response.data.sort((a, b) => (a.name > b.name) ? 1 : -1);
                 setNames(sortedList)
-                console.log('NAMES:', names)
+                console.log('NAMES:', sortedList)
             } catch (e) {
                 console.log(e)
             }
@@ -31,7 +31,7 @@ export default function NamesDisplay() {
     }, [])
 
     console.log('NAMES:', names)
-    
+
     const tableGrid =
         names.map(name =>
             <tr>
