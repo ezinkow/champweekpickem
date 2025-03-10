@@ -24,6 +24,18 @@ module.exports = function (app) {
             })
     });
 
+        // Find names where name = __
+        app.get('/api/names/:name', function (req, res) {
+            Names.findAll({
+                where: {
+                    name: req.params.name
+                }
+            })
+                .then(function (dbnames) {
+                    res.json(dbnames)
+                })
+        });
+
     //Submit name
     app.post("/api/names", function (req, res) {
         Names.create({

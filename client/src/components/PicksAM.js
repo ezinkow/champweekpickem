@@ -52,6 +52,19 @@ export default function PicksAM() {
     const handleNameSelect = event => {
         setName(event);
         setNameToast(event);
+        useEffect(() => {
+            async function fetchNames() {
+                try {
+                    const response = await axios(`api/names/${event}`)
+                    const sortedList = response.data.sort((a, b) =>
+                        a.name.localeCompare(b.name));
+                    setNames(sortedList)
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+            fetchNames()
+        }, [])
     };
 
     const namesList =
