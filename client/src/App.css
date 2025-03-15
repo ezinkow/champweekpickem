@@ -47,7 +47,7 @@ a:hover {
 }
 
 .picksTable {
-  width: 100%;
+  width: 50%;
 }
 
 .fix-col {
@@ -103,5 +103,5 @@ a:hover {
   left: 0;
   position: absolute;
   top: auto;
-  width: 100%;
+  width: 110px;
 }
