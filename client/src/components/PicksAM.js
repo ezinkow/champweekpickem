@@ -226,15 +226,15 @@ export default function PicksAM() {
                     game_date
                 })
             }
-
-            // const totalTiebreakerScore = Number(uScore) + Number(fScore)
-            // const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
-            // axios.post('api/picks', {
-            //     name,
-            //     game_id: 113,
-            //     pick:tiebreakerScore,
-            //     game_date: 'tb'
-            // })
+            //tiebreaker
+            const totalTiebreakerScore = Number(uScore) + Number(fScore)
+            const tiebreakerScore = uScore + '-' + fScore + ' (' + totalTiebreakerScore + ')'
+            axios.post('api/picks', {
+                name,
+                game_id: 113,
+                pick:tiebreakerScore,
+                game_date: 'tb'
+            })
 
 
             toast.success(`Thanks, ${nameToast}, picks submitted.`,
@@ -302,12 +302,12 @@ export default function PicksAM() {
                     </thead>
                     <tbody>
                         {tableGrid}
-                        {/* <tr>
+                        <tr>
                         <td>Tiebreaker: Big Ten Score</td>
                         <td>Enter scores to the right</td>
                         <td><input onChange={handleUScore} type="text" id="tiebreakeru" name="underdog score" size="10" /></td>
                         <td><input onChange={handleFScore} type="text" id="tiebreakerf" name="favorite score" size="10" /></td>
-                    </tr> */}
+                    </tr>
                     </tbody>
                 </Table>
 
