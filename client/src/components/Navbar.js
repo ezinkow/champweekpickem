@@ -31,7 +31,7 @@ export default function Navbar() {
                 <div className="navbar-inner">
                     {/* Brand */}
                     <Link to="/" className="navbar-brand">
-                        🏀 CHAMP WEEK PICK'EM ⛹🏾‍♂️
+                        🏀 CHAMP WEEK PICK 'EM ⛹🏾‍♂️
                     </Link>
 
                     {/* Hamburger Toggle (Mobile Only) */}
