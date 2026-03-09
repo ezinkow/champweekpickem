@@ -87,9 +87,20 @@ async function syncGames() {
                 away_score: parseInt(away?.score || 0),
                 status,
                 game_clock: event.status?.type?.shortDetail || "",
-                winner: status === "STATUS_FINAL"
-                    ? (parseInt(home.score) > parseInt(away.score) ? homeTeam : awayTeam)
-                    : null,
+                winner: (() => {
+                    if (status !== "STATUS_FINAL") return null;
+                    const existingGame = existingMap[event.id];
+                    const fav = existingGame?.favorite || favorite;
+                    const line = existingGame?.line || currentLine;
+                    if (!line) return null;
+                    const favIsHome = fav === homeTeam;
+                    const favScore = favIsHome ? parseInt(home.score) : parseInt(away.score);
+                    const dogScore = favIsHome ? parseInt(away.score) : parseInt(home.score);
+                    const diff = favScore - dogScore;
+                    if (diff > line) return fav;
+                    if (diff < line) return existingGame?.underdog || underdog;
+                    return null;
+                })(),
                 line: isLocked ? (existingGame?.line || currentLine) : currentLine,
                 favorite: isLocked
                     ? (existingGame?.favorite || favorite)
