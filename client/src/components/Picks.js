@@ -3,7 +3,6 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import Instructions from "./Instructions";
 
-/* ---------- HELPERS ---------- */
 const isLocked = iso => iso && new Date() >= new Date(iso);
 
 const PickButtons = ({ game, picks, updatePick }) => (
@@ -53,6 +52,7 @@ export default function Picks() {
   const [authenticated, setAuthenticated] = useState(false);
   const [games, setGames] = useState([]);
   const [picks, setPicks] = useState([]);
+  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     axios.get("/api/games").then(res => setGames(res.data));
@@ -61,17 +61,50 @@ export default function Picks() {
     );
   }, []);
 
-const verify = async () => {
+  useEffect(() => {
+    const saved = localStorage.getItem("rememberedUser");
+    if (saved) {
+      const { name } = JSON.parse(saved);
+      setUser(name);
+      axios.post("/api/users/verify-token", JSON.parse(saved))
+        .then(res => {
+          if (res.data.success) {
+            setAuthenticated(true);
+            setUser(name);
+            axios.get("/api/picks", { params: { name } }).then(picksRes => {
+              const existingPicks = picksRes.data
+                .filter(p => !isLocked(p.game_date))
+                .map(p => ({
+                  game: p.game_id,
+                  pick: p.pick,
+                  game_date: p.game_date,
+                  line: games.find(g => g.id === p.game_id)?.line || null,
+                }));
+              setPicks(existingPicks);
+            });
+          } else {
+            localStorage.removeItem("rememberedUser");
+          }
+        })
+        .catch(() => localStorage.removeItem("rememberedUser"));
+    }
+  }, [games]);
+
+  const verify = async () => {
     try {
       const res = await axios.post("/api/users/verify", { name: user, password });
       if (!res.data.success) return toast.error("Wrong password");
       setAuthenticated(true);
       toast.success("Identity verified!");
-
-      // Fetch existing picks and pre-populate
+      if (rememberMe) {
+        localStorage.setItem("rememberedUser", JSON.stringify({
+          name: user,
+          token: res.data.token
+        }));
+      }
       const picksRes = await axios.get("/api/picks", { params: { name: user } });
       const existingPicks = picksRes.data
-        .filter(p => !isLocked(p.game_date)) // only unlocked games
+        .filter(p => !isLocked(p.game_date))
         .map(p => ({
           game: p.game_id,
           pick: p.pick,
@@ -84,11 +117,22 @@ const verify = async () => {
     }
   };
 
+  const logout = async () => {
+    const saved = localStorage.getItem("rememberedUser");
+    if (saved) {
+      const { token } = JSON.parse(saved);
+      await axios.post("/api/users/logout", { token });
+      localStorage.removeItem("rememberedUser");
+    }
+    setAuthenticated(false);
+    setUser("SELECT YOUR NAME");
+    setPicks([]);
+  };
+
   const visibleGames = useMemo(
-    () =>
-      games
-        .filter(g => !isLocked(g.game_date))
-        .sort((a, b) => new Date(a.game_date) - new Date(b.game_date)),
+    () => games
+      .filter(g => !isLocked(g.game_date))
+      .sort((a, b) => new Date(a.game_date) - new Date(b.game_date)),
     [games]
   );
 
@@ -117,11 +161,7 @@ const verify = async () => {
     try {
       const payload = {
         name: user,
-        picks: picks.map(p => ({
-          game_id: p.game,
-          pick: p.pick,
-          game_date: p.game_date
-        }))
+        picks: picks.map(p => ({ game_id: p.game, pick: p.pick, game_date: p.game_date }))
       };
       await axios.post("/api/picks/bulk", payload);
       toast.success(`Thanks ${user}, ${picks.length} picks submitted!`);
@@ -182,6 +222,14 @@ const verify = async () => {
               onKeyDown={e => e.key === "Enter" && verify()}
               style={{ padding: "8px 12px", borderRadius: 6, border: "1px solid #ccc", fontSize: 14, minWidth: 140 }}
             />
+            <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "#374151", cursor: "pointer" }}>
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={e => setRememberMe(e.target.checked)}
+              />
+              Remember me
+            </label>
             <button
               onClick={verify}
               style={{ padding: "8px 16px", borderRadius: 6, backgroundColor: "#13447a", color: "white", border: "none", fontWeight: 600, cursor: "pointer" }}
@@ -200,7 +248,15 @@ const verify = async () => {
 
         {authenticated && (
           <>
-            <h4 style={{ marginBottom: 10 }}>User: {user}</h4>
+            <h4 style={{ marginBottom: 10 }}>
+              User: {user}
+              <button
+                onClick={logout}
+                style={{ marginLeft: 12, fontSize: 12, padding: "3px 10px", borderRadius: 6, border: "1px solid #d1d5db", cursor: "pointer", color: "#6b7280", backgroundColor: "transparent" }}
+              >
+                Log out
+              </button>
+            </h4>
             {controlBar}
           </>
         )}
@@ -271,7 +327,6 @@ const verify = async () => {
                 boxShadow: "0 2px 8px rgba(0,0,0,0.07)", marginBottom: 10,
                 borderLeft: "4px solid #13447a",
               }}>
-                {/* Matchup */}
                 <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, fontWeight: 600, marginBottom: 6 }}>
                   <img src={game.away_logo} width={20} alt="" />
                   <span>{game.away_team}</span>
@@ -279,7 +334,6 @@ const verify = async () => {
                   <img src={game.home_logo} width={20} alt="" />
                   <span>{game.home_team}</span>
                 </div>
-                {/* Info row */}
                 <div style={{ display: "flex", gap: 10, fontSize: 11, color: "#6b7280", marginBottom: 10, flexWrap: "wrap", alignItems: "center" }}>
                   <span>🕐 {game.game_clock}</span>
                   <span>🔒 {formatTimeET(game.line_locked_time)} ET</span>
@@ -293,7 +347,6 @@ const verify = async () => {
                     ) : "Line TBD"}
                   </span>
                 </div>
-                {/* Pick buttons */}
                 <PickButtons game={game} picks={picks} updatePick={updatePick} />
               </div>
             ))}

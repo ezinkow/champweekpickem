@@ -1,5 +1,5 @@
 // Requiring our models
-const { Users } = require("../models");
+const { Users, Tokens } = require("../models");
 
 
 module.exports = function (app) {
@@ -50,22 +50,6 @@ module.exports = function (app) {
             })
     });
 
-    // Verify password
-    app.post("/api/users/verify", async (req, res) => {
-        const { name, password } = req.body;
-        try {
-            const user = await Users.findOne({ where: { name } });
-
-            if (!user) return res.status(404).json({ success: false });
-            if (user.password !== password) return res.status(401).json({ success: false });
-
-            res.json({ success: true });
-        } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false });
-        }
-    });
-
     app.post("/api/users/change-password", async (req, res) => {
         try {
             const { email, newPassword } = req.body;
@@ -81,4 +65,50 @@ module.exports = function (app) {
             res.status(500).json({ error: "Failed to update password" });
         }
     });
+
+    const crypto = require("crypto");
+
+    // Verify with password — returns token on success
+    app.post("/api/users/verify", async (req, res) => {
+        const { name, password } = req.body;
+        const user = await Users.findOne({ where: { name, password } });
+        if (!user) return res.json({ success: false });
+
+        const token = crypto.randomBytes(32).toString("hex");
+        const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        await Tokens.upsert({ token, name, expires });
+
+        res.json({ success: true, token });
+    });
+
+    // Verify with saved token
+    app.post("/api/users/verify-token", async (req, res) => {
+        try {
+            const { name, token } = req.body;
+            if (!name || !token) return res.json({ success: false });
+
+            const entry = await Tokens.findOne({ where: { token, name } });
+            if (!entry) return res.json({ success: false });
+
+            if (new Date() > new Date(entry.expires)) {
+                await entry.destroy();
+                return res.json({ success: false });
+            }
+
+            // Refresh expiry on successful use
+            await entry.update({ expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000) });
+            res.json({ success: true });
+        } catch (err) {
+            console.error("Token verify error:", err);
+            res.json({ success: false });
+        }
+    });
+
+    // Call this on logout if you add a logout button
+    app.post("/api/users/logout", async (req, res) => {
+        const { token } = req.body;
+        if (token) await Tokens.destroy({ where: { token } });
+        res.json({ success: true });
+    });
+
 }
