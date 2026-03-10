@@ -73,10 +73,10 @@ async function syncGames() {
                 id: event.id,
                 game_date: event.date,
                 line_locked_time: lineLockedTime,
-                home_team: homeTeam,
-                away_team: awayTeam,
-                home_logo: homeLogo,
-                away_logo: awayLogo,
+                home_team: teamsKnown ? homeTeam : (existingGame?.home_team || homeTeam),
+                away_team: teamsKnown ? awayTeam : (existingGame?.away_team || awayTeam),
+                home_logo: teamsKnown ? homeLogo : (existingGame?.home_logo || homeLogo),
+                away_logo: teamsKnown ? awayLogo : (existingGame?.away_logo || awayLogo),
                 fav_logo: isLocked
                     ? (existingGame?.fav_logo || favLogo)
                     : (hasOdds ? favLogo : (teamsKnown ? favLogo : (existingGame?.fav_logo || favLogo))),
