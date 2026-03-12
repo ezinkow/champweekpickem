@@ -69,7 +69,7 @@ async function syncGames() {
             const dogLogo = underdog === homeTeam ? homeLogo : awayLogo;
             const hasOdds = !!(odds && currentLine);
 
-            await Games.upsert({
+            const payload = {
                 id: event.id,
                 game_date: event.date,
                 line_locked_time: lineLockedTime,
@@ -77,19 +77,14 @@ async function syncGames() {
                 away_team: teamsKnown ? awayTeam : (existingGame?.away_team || awayTeam),
                 home_logo: teamsKnown ? homeLogo : (existingGame?.home_logo || homeLogo),
                 away_logo: teamsKnown ? awayLogo : (existingGame?.away_logo || awayLogo),
-                fav_logo: isLocked
-                    ? (existingGame?.fav_logo || favLogo)
-                    : (hasOdds ? favLogo : (teamsKnown ? favLogo : (existingGame?.fav_logo || favLogo))),
-                dog_logo: isLocked
-                    ? (existingGame?.dog_logo || dogLogo)
-                    : (hasOdds ? dogLogo : (teamsKnown ? dogLogo : (existingGame?.dog_logo || dogLogo))),
+                fav_logo: isLocked ? (existingGame?.fav_logo || favLogo) : (hasOdds ? favLogo : (teamsKnown ? favLogo : (existingGame?.fav_logo || favLogo))),
+                dog_logo: isLocked ? (existingGame?.dog_logo || dogLogo) : (hasOdds ? dogLogo : (teamsKnown ? dogLogo : (existingGame?.dog_logo || dogLogo))),
                 home_score: parseInt(home?.score || 0),
                 away_score: parseInt(away?.score || 0),
                 status,
                 game_clock: event.status?.type?.shortDetail || "",
                 winner: (() => {
                     if (status !== "STATUS_FINAL") return null;
-                    const existingGame = existingMap[event.id];
                     const fav = existingGame?.favorite || favorite;
                     const line = existingGame?.line || currentLine;
                     if (!line) return null;
@@ -102,14 +97,24 @@ async function syncGames() {
                     return null;
                 })(),
                 line: isLocked ? (existingGame?.line || currentLine) : currentLine,
-                favorite: isLocked
-                    ? (existingGame?.favorite || favorite)
-                    : (hasOdds ? favorite : (teamsKnown ? favorite : (existingGame?.favorite || favorite))),
-                underdog: isLocked
-                    ? (existingGame?.underdog || underdog)
-                    : (hasOdds ? underdog : (teamsKnown ? underdog : (existingGame?.underdog || underdog))),
+                favorite: isLocked ? (existingGame?.favorite || favorite) : (hasOdds ? favorite : (teamsKnown ? favorite : (existingGame?.favorite || favorite))),
+                underdog: isLocked ? (existingGame?.underdog || underdog) : (hasOdds ? underdog : (teamsKnown ? underdog : (existingGame?.underdog || underdog))),
                 selectable: teamsKnown
-            });
+            };
+
+            // Skip upsert if nothing meaningful changed
+            if (existingGame) {
+                const noChange =
+                    existingGame.status === payload.status &&
+                    existingGame.home_score === payload.home_score &&
+                    existingGame.away_score === payload.away_score &&
+                    existingGame.winner === payload.winner &&
+                    existingGame.line === payload.line;
+
+                if (noChange) continue;
+            }
+            
+            await Games.upsert(payload);
         }
 
         return true;
