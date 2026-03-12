@@ -73,7 +73,10 @@ export default function Picks() {
             setUser(name);
             axios.get("/api/picks", { params: { name } }).then(picksRes => {
               const existingPicks = picksRes.data
-                .filter(p => !isLocked(p.game_date))
+                .filter(p => {
+                  const game = games.find(g => g.id === p.game_id);
+                  return game && !isLocked(game.line_locked_time);
+                })
                 .map(p => ({
                   game: p.game_id,
                   pick: p.pick,
@@ -104,7 +107,10 @@ export default function Picks() {
       }
       const picksRes = await axios.get("/api/picks", { params: { name: user } });
       const existingPicks = picksRes.data
-        .filter(p => !isLocked(p.game_date))
+        .filter(p => {
+          const game = games.find(g => g.id === p.game_id);
+          return game && !isLocked(game.line_locked_time);
+        })
         .map(p => ({
           game: p.game_id,
           pick: p.pick,
