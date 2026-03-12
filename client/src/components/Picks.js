@@ -75,7 +75,7 @@ export default function Picks() {
               const existingPicks = picksRes.data
                 .filter(p => {
                   const game = games.find(g => g.id === p.game_id);
-                  return game && !isLocked(game.line_locked_time);
+                  return game && !isLocked(game.game_date);
                 })
                 .map(p => ({
                   game: p.game_id,
@@ -109,7 +109,7 @@ export default function Picks() {
       const existingPicks = picksRes.data
         .filter(p => {
           const game = games.find(g => g.id === p.game_id);
-          return game && !isLocked(game.line_locked_time);
+          return game && !isLocked(game.game_date);
         })
         .map(p => ({
           game: p.game_id,
