@@ -53,6 +53,10 @@ export default function Picks() {
   const [games, setGames] = useState([]);
   const [picks, setPicks] = useState([]);
   const [rememberMe, setRememberMe] = useState(false);
+  //tiebreaker
+  const [tiebreakerWin, setTiebreakerWin] = useState("");
+  const [tiebreakerLoss, setTiebreakerLoss] = useState("");
+  const [tiebreakerSaved, setTiebreakerSaved] = useState(false);
 
   useEffect(() => {
     axios.get("/api/games").then(res => setGames(res.data));
@@ -118,6 +122,12 @@ export default function Picks() {
           line: games.find(g => g.id === p.game_id)?.line || null,
         }));
       setPicks(existingPicks);
+      axios.get("/api/tiebreaker", { params: { name: user } }).then(res => {
+        if (res.data) {
+          setTiebreakerWin(res.data.win_score ?? "");
+          setTiebreakerLoss(res.data.loss_score ?? "");
+        }
+      });
     } catch {
       toast.error("Verify failed");
     }
@@ -160,6 +170,22 @@ export default function Picks() {
       }
       return [...prev, { game: game.id, pick, line: game.line, game_date: game.game_date }];
     });
+  };
+
+  const handleSaveTiebreaker = async () => {
+    if (!tiebreakerWin || !tiebreakerLoss) return toast.error("Enter both scores");
+    try {
+      await axios.post("/api/tiebreaker", {
+        name: user,
+        win_score: parseInt(tiebreakerWin),
+        loss_score: parseInt(tiebreakerLoss),
+      });
+      setTiebreakerSaved(true);
+      toast.success("Tiebreaker saved!");
+      setTimeout(() => setTiebreakerSaved(false), 3000);
+    } catch {
+      toast.error("Save failed");
+    }
   };
 
   const handleSubmit = async () => {
@@ -356,6 +382,57 @@ export default function Picks() {
                 <PickButtons game={game} picks={picks} updatePick={updatePick} />
               </div>
             ))}
+          </div>
+          {/* TIEBREAKER */}
+          <div style={{ padding: "0 12px", marginTop: 24 }}>
+            <div style={{
+              background: "white", borderRadius: 12, padding: "16px 20px",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+              borderLeft: "4px solid #c89d3c",
+            }}>
+              <h4 style={{ color: "#13447a", margin: "0 0 6px 0", fontSize: 15 }}>🏆 Tiebreaker</h4>
+              <p style={{ color: "#6b7280", fontSize: 13, marginBottom: 12, margin: "0 0 12px 0" }}>
+                Predict the final score of the Big Ten Tournament Final. Used to break ties.
+              </p>
+              <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>
+                    Winning Score
+                  </label>
+                  <input
+                    type="number"
+                    value={tiebreakerWin}
+                    onChange={e => setTiebreakerWin(e.target.value)}
+                    placeholder="e.g. 78"
+                    style={{ width: 90, padding: "8px 10px", borderRadius: 6, border: "1px solid #d1d5db", fontSize: 16, fontWeight: 700, textAlign: "center" }}
+                  />
+                </div>
+                <div style={{ fontSize: 20, fontWeight: 700, color: "#9ca3af", alignSelf: "flex-end", paddingBottom: 8 }}>—</div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: 11, fontWeight: 700, color: "#6b7280", textTransform: "uppercase" }}>
+                    Losing Score
+                  </label>
+                  <input
+                    type="number"
+                    value={tiebreakerLoss}
+                    onChange={e => setTiebreakerLoss(e.target.value)}
+                    placeholder="e.g. 65"
+                    style={{ width: 90, padding: "8px 10px", borderRadius: 6, border: "1px solid #d1d5db", fontSize: 16, fontWeight: 700, textAlign: "center" }}
+                  />
+                </div>
+                <button
+                  onClick={handleSaveTiebreaker}
+                  style={{ alignSelf: "flex-end", padding: "8px 18px", borderRadius: 6, backgroundColor: "#13447a", color: "white", border: "none", fontWeight: 600, cursor: "pointer", fontSize: 13 }}
+                >
+                  Save
+                </button>
+                {tiebreakerSaved && (
+                  <span style={{ alignSelf: "flex-end", fontSize: 13, color: "#16a34a", fontWeight: 600, paddingBottom: 8 }}>
+                    ✅ Saved
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
         </>
       )}

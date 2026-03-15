@@ -23,6 +23,7 @@ require("./routes/standings-api-routes.js")(app);
 require("./routes/scoreboard-api-routes.js")(app);
 require("./routes/adminRefreshGames.js")(app);
 require("./routes/picksdisplay-api-routes.js")(app);
+require("./routes/tiebreaker-api-routes.js")(app);
 
 const syncGames = require("./services/sync.js");
 const lockLines = require("./jobs/lockLines");

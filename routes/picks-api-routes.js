@@ -1,5 +1,5 @@
 // Requiring our models
-const { Picks, Games } = require("../models");
+const { Picks, Games, Tiebreaker } = require("../models");
 
 module.exports = function (app) {
 
